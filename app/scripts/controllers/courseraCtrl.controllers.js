@@ -13,7 +13,7 @@ angular.module('Controllers', [])
 function courseraCtrl($scope, GameList) {
 
     $scope.GameList = GameList;
-    $scope.errorMessage = '';
+
     $scope.createGame = function(){
         GameList.add()
         .catch(function (err) {
