@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html ng-app="app">
-  <head>
-    <title>Todo</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Todo</h1>
 
-    <ng-view></ng-view>
+<head>
+    <title>Coursera Project</title>
+    <!-- CSS File -->
+    <link rel='stylesheet' href='bootstrap/dist/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='font-awesome/css/font-awesome.min.css' />
+    <link rel='stylesheet' href='stylesheets/style.css' />
+</head>
+
+<body ng-controller='courseraCtrl'>
+    <h1>HangMan</h1>
+
+    <div class="cardCollection">
+        <div ng-repeat="game in GameList.childNodes" class="card">
+            <hangman-game game="game"><hangman-game>
+        </div>
+
+        <div class="card card_empty">
+            <div class="card_header">
+                <i class="fa fa-gamepad fa-1x"></i> Add Game
+            </div>
+            <div class="centerbutton">
+                <div>
+                    <i class="fa fa-plus fa-5x" ng-click="createGame()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" role="alert" ng-if="errorMessage">
+        {{errorMessage}}
+    </div>
 
     <!-- Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+    <script src="angular/angular.min.js"></script>
+    <script src="angular-resource/angular-resource.min.js"></script>
     <script src="app.js"></script>
-    <script src="/scripts/controllers/controllers.js"></script>
-    <script src="/scripts/services/services.js"></script>
+    <script src="/scripts/services/ApiService.factory.js"></script>
+    <script src="/scripts/services/GameList.factory.js"></script>
+    <script src="/scripts/controllers/courseraCtrl.controllers.js"></script>
+    <script src="/scripts/controllers/hangmanGameCtrl.controller.js"></script>
+    <script src="/scripts/controllers/gameGraphCtrl.controller.js"></script>
+    <script src="/scripts/directive/hangmanGame.directive.js"></script>
+    <script src="/scripts/directive/gameGraph.directive.js"></script>
 
-
-  </body>
+</body>
 </html>

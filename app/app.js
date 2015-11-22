@@ -1,14 +1,8 @@
- angular.module('app', ['ngRoute', 'ngResource', 'Controllers', 'Services'])
+'use strict';
 
-.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider
-    .when('/', {
-      templateUrl: 'partials/todos.html',
-      controller: 'TodoController'
-    })
-
-    .when('/:id', {
-      templateUrl: 'partials/todoDetails.html',
-      controller: 'TodoDetailCtrl'
-   });
-}]);
+angular.module('app', [
+	'ngResource',
+	'Services',
+	'Controllers',
+	'Directive'
+]);

@@ -1,0 +1,49 @@
+<div class="card_header card_header_motified">
+	<div>
+		<i class="fa fa-gamepad fa-1x"></i> Game
+	</div>
+	<div>
+		<i class="fa fa-times" ng-click="close()"></i>
+	</div>
+</div>
+
+<div class="card_body">
+
+	<div class="card_left">
+		<div>
+			Phrase: {{game.phrase}}
+		</div>
+		<div>
+			You have <span class="badge">{{game.num_tries_left}}</span> tries left.
+		</div>
+		<div ng-if="game.state === 'alive'">
+			Game State: {{game.state}}
+		</div>
+		<div ng-if="game.state === 'lost'">
+			You Lost the Game.
+		</div>
+		<div ng-if="game.state === 'won'">
+			Congratulations! You Win the Game.
+		</div>
+		<div>
+			<input ng-model="opt.input" ng-if="game.state === 'alive'" placeholder="Guess a letter">
+		</div>
+
+		<div>
+			Guessed: {{opt.guessed}}
+		</div>
+
+		<div class="alert alert-danger" role="alert" ng-if="errorMessage">
+    		{{errorMessage}}
+		</div>
+		<div>
+			<button class="btn btn-primary" ng-click="submit()" ng-if="game.state === 'alive'">Guess</button>
+			<button class="btn btn-primary" ng-click="restart()" ng-if="game.state !== 'alive'">Restart</button>
+		</div>
+	</div>
+
+	<div class="card_right">
+		<game-graph nums="game.num_tries_left"></game-graph>
+	</div>
+</div>
+

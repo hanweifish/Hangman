@@ -1,0 +1,12 @@
+{
+  "name": "Coursera Project",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular-resource": "~1.4.8",
+    "font-awesome": "~4.4.0",
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.8"
+  },
+  "devDependencies": {},
+  "appPath": "app"
+}
