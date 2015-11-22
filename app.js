@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'app')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
-var port = 3003;
+var port = process.env.PORT || 3003;
 var server = app.listen(port, function () {
   var host = server.address().address;
   console.log('Example server listening at http://%s:%s', host, port);
