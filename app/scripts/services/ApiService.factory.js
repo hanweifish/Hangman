@@ -12,7 +12,7 @@ angular.module('Services', [])
 
 function ApiServiceFactory($resource){
 
-	var baseURL = 'http://hangman.coursera.org';
+	var baseURL = '//hangman.coursera.org';
 
 
 	return function(input){
