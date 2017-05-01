@@ -8,47 +8,49 @@ body.prevent-scroll {
     cursor: zoom-in;
 }
 .lens-modal {
-	  -webkit-backface-visibility: hidden;
-	          backface-visibility: hidden;
-	  box-sizing: border-box;
-	  display: -webkit-box;
-	  display: -ms-flexbox;
-	  outline: none;
-	  display: flex;
-	  -webkit-box-orient: vertical;
-	  -webkit-box-direction: normal;
-	      -ms-flex-direction: column;
-	          flex-direction: column;
-	  height: 100%;
-	  -webkit-box-pack: center;
-	      -ms-flex-pack: center;
-	          justify-content: center;
-	  margin: auto;
-	  max-width: 980px;
-	  padding: 8px;
-	  position: relative;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	outline: none;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	height: 100%;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	margin: auto;
+	max-width: 980px;
+	padding: 8px;
+	position: relative;
 }
 
 .lens-modal-wrapper {
-  display: none;
-  bottom: 0;
-  box-sizing: border-box;
-  left: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
+ 	display: none;
+ 	bottom: 0;
+ 	box-sizing: border-box;
+ 	left: 0;
+ 	position: fixed;
+ 	top: 0;
+ 	right: 0;
 }
+
 .lens-modal-backdrop {
-  background-color: #000000;
-  box-sizing: border-box;
-  height: 100%;
-  left: 0;
-  opacity: 0.6;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  width: 100%;
+ 	background-color: #000000;
+ 	box-sizing: border-box;
+ 	height: 100%;
+ 	left: 0;
+ 	opacity: 0.6;
+ 	overflow: hidden;
+ 	position: fixed;
+ 	top: 0;
+ 	width: 100%;
 }
+
 .lens-modal-close {
 	cursor: pointer;
 	background: white;
@@ -58,35 +60,43 @@ body.prevent-scroll {
 	padding: 10px 10px 0 0 ;
 	outline: none;
 }
+
 .lens-modal-close::before {
 	font-family: "vq-icon-font";
 	content: "\e60a";
 	color: #555555;
 	font-size: 1rem;
 }
+
 .lens-modal-close:hover::before {
-  color: rgba(153, 153, 153, 0.9);
+ 	color: rgba(153, 153, 153, 0.9);
 }
+
 .lens-modal-close:focus::before {
-  color: rgba(153, 153, 153, 0.9);
+ 	color: rgba(153, 153, 153, 0.9);
 }
+
 .lens-modal-close:active::before {
-  color: #333333;
+ 	color: #333333;
 }
+
 .lens-modal-close[disabled]:empty {
-  background-color: transparent;
-  cursor: default;
-  opacity: 1;
+ 	background-color: transparent;
+ 	cursor: default;
+ 	opacity: 1;
 }
+
 .lens-modal-close[disabled]:empty::before,
 .lens-modal-close[disabled]:empty:focus::before,
 .lens-modal-close[disabled]:empty:hover::before {
-  color: #cccccc;
+	color: #cccccc;
 }
-.lens-modal-close+div {
-	margin-top: -20px;
-}
+
 .lens-modal-throbber {
     background: url("http://p.ebaystatic.com/aw/eBay3.0/lensing/throbber_45px.gif") 50% 50% #FFF no-repeat;
-    min-height: 375px;
+    min-height: 360px;
+}
+
+.lens-modal-body {
+	margin-top: -20px;
 }

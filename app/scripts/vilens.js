@@ -404,21 +404,7 @@
 		},
 
 		fallback: function() {
-			// First check if there is a trigger element
-			if(!this.$triggerElem) {
-				// Close the modal and return
-				this.close();
-				return;
-			}
-			// Fallback to the original url
-			var href = this.$triggerElem.attr('href');
-
-			// Close the modal
 			this.close();
-			// Redirect to end point if href is available
-			if(href) {
-				window.location = href;
-			}
 		},
 
 		getCacheKey: function(id) {
@@ -483,25 +469,25 @@
 
 		urlHandle: function(restBase, cta, dataAttributes) {
 			console.log('here', restBase, cta, dataAttributes);
-			restBase = 'http://lm-sjc-11002779.corp.ebay.com:8080/bfl';
+			restBase = 'http://lm-sjc-11002779.corp.ebay.com:3008/bfl';
 			var params = [],
 				itemId = 0,
 				query = '',
 				key;
 
 			itemId = this.extractItemId();
-			// if(dataAttributes) {
-			// 	for(key in dataAttributes) {
-			// 		if(key === 'cta') {
-			// 			continue;
-			// 		}
-			// 		params.push(key + '=' + encodeURIComponent(dataAttributes[key]));
-			// 	}
-			// }
-			// if(params.length) {
-			// 	query = '?' + params.join('&');
-			// }
-			return restBase + '/' + cta + '/' + itemId;
+
+			if(this.dataAttributes && this.dataAttributes['params']) {
+				var paramsObj = this.dataAttributes['params'];
+				for(key in paramsObj) {
+					params.push(key + '=' + encodeURIComponent(paramsObj[key]));
+				}
+			}
+			if(params.length) {
+				query = '?' + params.join('&');
+			}
+
+			return restBase + '/' + cta + '/' + itemId + query;
 		},
 
 		isAjaxable: function(url) {
@@ -533,7 +519,7 @@
 				dataType: dataType,
 				url: url,
 				success: function(resp) {
-					resp.html = '<div class="placebid_layer_wrapper" id="w0" data-widget="/offerview$0.0.1/src/pages/placebid/widget"><div class="app-bidlayer-main-wrapper" id="w0-w0" data-widget="/offerview$0.0.1/src/ui-modules/app-bidlayer-main-container/index"><div class="app-bidlayer-itemsummary-wrapper"><div class="placebid_layer_priceinfo"><span class="placebid_layer_priceinfo_price"><span class="  "><span class="cc-text-spans--BOLD">US $0.99</span></span></span><span class="placebid_layer_priceinfo_plus">+</span><span class="placebid_layer_priceinfo_shipping"><span><span>$7.20 for shipping</span></span></span></div><div class="placebid_layer_bidinfo"><span class="app-counter-wrapper " id="_counter_itemEndDate" data-urgencytime="3600" data-secondsleft="52537" data-counterstarttime="3600" data-widget="/offerview$0.0.1/src/ui-modules/app-counter-bidlayer/index"><span id="_counter_itemEndDate_hour" class="showInline">14</span><span id="_counter_itemEndDate_hourText" class="showInline">h</span><span id="_counter_itemEndDate_minute" class="showInline">35</span><span id="_counter_itemEndDate_minuteText" class="showInline">m</span><span id="_counter_itemEndDate_second" class="showInline">37</span><span id="_counter_itemEndDate_secondText" class="showInline">s</span></span><span class="seperator">|</span><span class="placebid_layer_bidcount"><span><span>0 Bids</span></span></span></div></div><div class="placebid_layer_powerbid_warpper"><div class="app-bidlayer-education-wrapper"><div class="placebid_layer_title"><span><span class="cc-text-spans--BOLD">Place your bid</span></span><button aria-label="Help button. Click to get more details on bidding" class="placebid_cir" id="PB_HELP_ICON"><span class="ui-component-icon-wrapper ui-component-icon__HELP"></span></button></div><div class="placebid_layer_education" id="PB_HELP_CONTENT"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span>Consider bidding the highest amount you\'re willing to pay. We\'ll bid for you, just enough to keep you in the lead. We\'ll keep your high bid amount hidden from everyone else.</span></span></div></div><div class="placebid_layer_education" id="PB_HELP_SEEMORE_CONTENT"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span class="cc-text-spans--BOLD">Here\'s how bidding works:</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If the current bid is $20, and you bid $30, we bid $21 for you.</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If no one else bids, you win and pay $21.</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If someone else bids $31, we bid for you up to your max of $30.</span></span></div></div></div></div></div><div class="app-bidlayer-bidsection-wrapper"><div class="placebid_buttons"><span class="button-placebid" id="placeBidSec_btn_1"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $1">Bid US $1</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"1.00","currency":"USD"}}</div></span><span class="button-placebid" id="placeBidSec_btn_2"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $3">Bid US $3</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"3.00","currency":"USD"}}</div></span><span class="button-placebid" id="placeBidSec_btn_3"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $4">Bid US $4</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"4.00","currency":"USD"}}</div></span></div><div class="placebid_layer_seperator"><div class="circle"><span><span>OR</span></span></div></div><div class="placebid_layer_bid"><span class="inpWrap"><label class="symb"><span><span>US $</span></span></label><input type="text" id="inpBid" aria-label="Bid " name="Bid "></span><div class="hide_field_input">{"_type":"CurrencyField","validations":[{"_type":"NumberValidation","minValue":"0.0","maxValue":"999999999.99","decimalPrecision":2,"numberPatterns":[{"groupPattern":"####,###,###,###,###.##","maxLength":20}]}],"accessibilityText":"Enter bid amount","currency":{"textSpans":[{"text":"US $"}],"value":"USD"}}</div><span class="button-placebid button-placebid-modify"><a class="component-button" href="/bfl/placebid/280014118475?action=placebid&amp;_trksid=p2471758.m4916" role="button">Bid </a></span></div></div></div><div class="placebid_layer_powerbid_confirm_warpper"></div><div class="app-bidlayer-disclaimer-wrapper"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span>By placing a bid, you\'re committing to buy this item if you win.</span></span></div></div></div><div class="placebid_auto_refresh"><div class="app-auto-refresh-wrapper" data-refresh-in-seconds="4824" data-item-id="280014118475" id="w0-w0-w0" data-widget="/offerview$0.0.1/src/ui-modules/app-auto-refresh/widget"></div></div></div></div>';
+					//resp.html = '<div class="placebid_layer_wrapper" id="w0" data-widget="/offerview$0.0.1/src/pages/placebid/widget"><div class="app-bidlayer-main-wrapper" id="w0-w0" data-widget="/offerview$0.0.1/src/ui-modules/app-bidlayer-main-container/index"><div class="app-bidlayer-itemsummary-wrapper"><div class="placebid_layer_priceinfo"><span class="placebid_layer_priceinfo_price"><span class="  "><span class="cc-text-spans--BOLD">US $0.99</span></span></span><span class="placebid_layer_priceinfo_plus">+</span><span class="placebid_layer_priceinfo_shipping"><span><span>$7.20 for shipping</span></span></span></div><div class="placebid_layer_bidinfo"><span class="app-counter-wrapper " id="_counter_itemEndDate" data-urgencytime="3600" data-secondsleft="52537" data-counterstarttime="3600" data-widget="/offerview$0.0.1/src/ui-modules/app-counter-bidlayer/index"><span id="_counter_itemEndDate_hour" class="showInline">14</span><span id="_counter_itemEndDate_hourText" class="showInline">h</span><span id="_counter_itemEndDate_minute" class="showInline">35</span><span id="_counter_itemEndDate_minuteText" class="showInline">m</span><span id="_counter_itemEndDate_second" class="showInline">37</span><span id="_counter_itemEndDate_secondText" class="showInline">s</span></span><span class="seperator">|</span><span class="placebid_layer_bidcount"><span><span>0 Bids</span></span></span></div></div><div class="placebid_layer_powerbid_warpper"><div class="app-bidlayer-education-wrapper"><div class="placebid_layer_title"><span><span class="cc-text-spans--BOLD">Place your bid</span></span><button aria-label="Help button. Click to get more details on bidding" class="placebid_cir" id="PB_HELP_ICON"><span class="ui-component-icon-wrapper ui-component-icon__HELP"></span></button></div><div class="placebid_layer_education" id="PB_HELP_CONTENT"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span>Consider bidding the highest amount you\'re willing to pay. We\'ll bid for you, just enough to keep you in the lead. We\'ll keep your high bid amount hidden from everyone else.</span></span></div></div><div class="placebid_layer_education" id="PB_HELP_SEEMORE_CONTENT"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span class="cc-text-spans--BOLD">Here\'s how bidding works:</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If the current bid is $20, and you bid $30, we bid $21 for you.</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If no one else bids, you win and pay $21.</span></span></div><div class="row"><span class=" cc-textblock--block"><span>If someone else bids $31, we bid for you up to your max of $30.</span></span></div></div></div></div></div><div class="app-bidlayer-bidsection-wrapper"><div class="placebid_buttons"><span class="button-placebid" id="placeBidSec_btn_1"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $1">Bid US $1</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"1.00","currency":"USD"}}</div></span><span class="button-placebid" id="placeBidSec_btn_2"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $3">Bid US $3</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"3.00","currency":"USD"}}</div></span><span class="button-placebid" id="placeBidSec_btn_3"><a class="component-button" href="/bfl/placebid/280014118475?action=powerbid&amp;_trksid=p2471758.m4916" role="button" aria-label="Bid US $4">Bid US $4</a><div class="hide_field_input">{"decimalPrecision":2,"price":{"value":"4.00","currency":"USD"}}</div></span></div><div class="placebid_layer_seperator"><div class="circle"><span><span>OR</span></span></div></div><div class="placebid_layer_bid"><span class="inpWrap"><label class="symb"><span><span>US $</span></span></label><input type="text" id="inpBid" aria-label="Bid " name="Bid "></span><div class="hide_field_input">{"_type":"CurrencyField","validations":[{"_type":"NumberValidation","minValue":"0.0","maxValue":"999999999.99","decimalPrecision":2,"numberPatterns":[{"groupPattern":"####,###,###,###,###.##","maxLength":20}]}],"accessibilityText":"Enter bid amount","currency":{"textSpans":[{"text":"US $"}],"value":"USD"}}</div><span class="button-placebid button-placebid-modify"><a class="component-button" href="/bfl/placebid/280014118475?action=placebid&amp;_trksid=p2471758.m4916" role="button">Bid </a></span></div></div></div><div class="placebid_layer_powerbid_confirm_warpper"></div><div class="app-bidlayer-disclaimer-wrapper"><div class="cc-textblock"><div class="row"><span class=" cc-textblock--block"><span>By placing a bid, you\'re committing to buy this item if you win.</span></span></div></div></div><div class="placebid_auto_refresh"><div class="app-auto-refresh-wrapper" data-refresh-in-seconds="4824" data-item-id="280014118475" id="w0-w0-w0" data-widget="/offerview$0.0.1/src/ui-modules/app-auto-refresh/widget"></div></div></div></div>';
 					callback(resp);
 				},
 				error: function(jqXHR, error) {
@@ -613,12 +599,36 @@
 		},
 
 		processResources: function(resp) {
-			var t = this;
+			var _this = this;
+			if (!_this.isValidValue(resp)) {
+				return;
+			}
 
-			t.createContainer();
-			t.loadHTML(resp);
+			if(resp && resp.redirectUrl){
+				_this.reloadParent(resp.redirectUrl);
+				return false;
+			}
+
+			if(resp && resp.fallBackUrl){
+				_this.reloadParent(resp.fallBackUrl);
+				return false;
+			}
+
+			_this.createContainer();
+			_this.loadHTML(resp);
 			// Load resources
-			t.loadResources(resp);
+			_this.loadResources(resp);
+		},
+
+		reloadParent : function(url) {
+			top.location.href = url;
+		},
+
+		isValidValue : function(value) {
+		    if(typeof value !== 'undefined' && !!value) {
+		        return true;
+		    }
+		    return false;
 		},
 
 		checkContainer: function(containerMarkup) {
@@ -687,19 +697,22 @@
 			if (!resp.cssUrl) {
 				return deferred.reject();
 			}
-			var fileList = (Array.isArray && Array.isArray(resp.cssUrl)) || Object.prototype.toString.call(resp.cssUrl) === "[object Array]" ? resp.cssUrl : [resp.cssUrl];
-			var i,
-				file,
-				len = fileList.length;
-			for (i = 0; i < len; i++) {
-				file = fileList[i];
-				var link = document.createElement('link');
-			    link.type = 'text/css';
-			    link.rel = 'stylesheet';
-			    link.href = file;
-			    document.getElementsByTagName('head')[0].appendChild(link);
-			}
-			return deferred.resolve();
+
+			var link = document.createElement('link');
+		    link.type = 'text/css';
+		    link.rel = 'stylesheet';
+		    link.href = resp.cssUrl;
+
+		    document.getElementsByTagName('head')[0].appendChild(link);
+
+	        var img = document.createElement('img');
+	        //used to find whether css loaded or not
+	        img.onerror = function(){
+	        	console.log('LoadCSS', new Date().getTime());
+	        	deferred.resolve();
+	        };
+	        img.src = resp.cssUrl;
+			return deferred.promise();
 		},
 
 		loadResources: function(resp) {
@@ -726,13 +739,13 @@
 		},
 
 		loadHTML: function(resp) {
-			console.log('loadHTML');
 			var _this = this;
 			_this.moveContainer();
 
 			// Check if the data is direct markup
 			if(resp.html) {
 				_this.$container.html(resp.html);
+				console.log('loadHTML', new Date().getTime());
 			}
 		},
 
@@ -782,6 +795,7 @@
 				$modalBody.hide();
 			} else {
 				$modalThrobber.hide();
+				console.log('Show Modal', new Date().getTime());
 				$modalBody.show();
 			}
 		},
@@ -849,7 +863,7 @@
 								.css('z-index', zIndex + 20)
 								.data('index', index),
 				$modalClose = $('<button class="lens-modal-close"></button>'),
-				$modalThrobber = $('<div class="lens-modal-throbber"></div>'),
+				$modalThrobber = $('<div class="lens-modal-throbber" id="MODAL_THROBBER"></div>'),
 				$body = $('body'),
 				widthObj = t.extractWidth(t.options.width);
 
@@ -886,6 +900,11 @@
 			if(this.$modal) {
 				this.$modal.modal('hide');
 			}
+			var url = window.location.href;
+			url = url.replace(/&*boolp=1/,"");
+			url = url.replace(/&*autorefresh=true/,"");
+			url += (url.indexOf("?")!=-1) ? "&autorefresh=true" : "?autorefresh=true";
+			top.location = url;
 		},
 
 		show: function() {
