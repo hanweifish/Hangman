@@ -1,45 +1,22 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html>
 
-<head>
-    <title>Coursera Project</title>
-    <!-- CSS File -->
-    <link rel='stylesheet' href='bootstrap/dist/css/bootstrap.min.css' />
-    <link rel='stylesheet' href='font-awesome/css/font-awesome.min.css' />
-    <link rel='stylesheet' href='stylesheets/style.css' />
-</head>
+ 	<head>
+ 		<link rel="stylesheet" href="../static/stylesheets/style.css">
+  	</head>
 
-<body ng-controller='courseraCtrl'>
-    <h1>HangMan</h1>
+  	<body>
+		<button data-cta="placebid" class="lens-item lens-zoom">This is PlaceBid button</button>
+		<button data-cta="bestoffer" class="lens-item lens-zoom" data-url="/txn/bo/showBuyerOffer?itemId=160009487197&_=1493356996627" data-fallbackUrl="">This is BestOffer button</button>
 
-    <div class="cardCollection">
-        <div ng-repeat="game in GameList.childNodes" class="card">
-            <hangman-game game="game"><hangman-game>
-        </div>
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../static/scripts/vilens.js"></script>
+		<script type="text/javascript">
+		    new Lens({
+		        "sid": "p3907.m570.l1313",
+		        "width": '540px'
+		    });
+		</script>
+  	</body>
 
-        <div class="card card_empty">
-            <div class="card_header">
-                <i class="fa fa-gamepad fa-1x"></i> Add Game
-            </div>
-            <div class="centerbutton">
-                <div>
-                    <i class="fa fa-plus fa-5x" ng-click="createGame()"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Libraries -->
-    <script src="angular/angular.min.js"></script>
-    <script src="angular-resource/angular-resource.min.js"></script>
-    <script src="app.js"></script>
-    <script src="/scripts/services/ApiService.factory.js"></script>
-    <script src="/scripts/services/GameList.factory.js"></script>
-    <script src="/scripts/controllers/courseraCtrl.controllers.js"></script>
-    <script src="/scripts/controllers/hangmanGameCtrl.controller.js"></script>
-    <script src="/scripts/controllers/gameGraphCtrl.controller.js"></script>
-    <script src="/scripts/directive/hangmanGame.directive.js"></script>
-    <script src="/scripts/directive/gameGraph.directive.js"></script>
-
-</body>
 </html>

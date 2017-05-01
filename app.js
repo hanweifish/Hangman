@@ -20,9 +20,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'app')));
+app.use('/static', express.static(path.join(__dirname, 'app')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+app.get('/itm/:itemId', function(req, res){
+    res.sendfile('index.html', {root: './app'});
+})
 
 var port = process.env.PORT || 3003;
 
