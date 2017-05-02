@@ -245,26 +245,39 @@
 		},
 
 		triggerAction: function() {
-			var hash = window.location.hash,
-				actionVerifier = this.options.actionVerifier,
-				action;
-			if(!hash) {
-				return; // Return if no hash
-			}
-			// If action verifier is present, first verify the action
-			if(actionVerifier && !actionVerifier(this.getActionType(hash))) {
+			// var hash = window.location.hash,
+			// 	actionVerifier = this.options.actionVerifier,
+			// 	action;
+			var params = this.getParamsObj();
+			if (Object.keys(params).length === 0 || !params.cta ) {
 				return;
 			}
-			action = /#lensaction=([0-9]+-?[0-9]*)\|/i.exec(hash);
-			if(action && action[1]) {
-				// set the data attributes
-				this.dataAttributes = this.getActionDataAttributes(action[1]);
-				// Set the action hash to instance
-				this.actionHash = hash;
-				// Activate the lens
-				console.log('triggerAction');
-				this.activateLens(this.dataAttributes && this.dataAttributes.cta);
-			}
+			this.dataAttributes = $.extend(this.dataAttributes, params);
+
+			this.activateLens(this.dataAttributes && this.dataAttributes.cta);
+		},
+
+		getParamsObj: function () {
+		 	// This function is anonymous, is executed immediately and
+		 	// the return value is assigned to QueryString!
+		 	var query_string = {};
+		 	var query = window.location.search.substring(1);
+		 	var vars = query.split("&");
+		 	for (var i=0;i<vars.length;i++) {
+		 		var pair = vars[i].split("=");
+		        // If first entry with this name
+			    if (typeof query_string[pair[0]] === "undefined") {
+			      query_string[pair[0]] = decodeURIComponent(pair[1]);
+			        // If second entry with this name
+			    } else if (typeof query_string[pair[0]] === "string") {
+			      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+			      query_string[pair[0]] = arr;
+			        // If third or later entry with this name
+			    } else {
+			      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+			    }
+		  	}
+		  	return query_string;
 		},
 
 		getActionDataAttributes: function(action) {
@@ -442,7 +455,6 @@
 
 		extractItemId: function() {
 			var	url = location.href;
-			console.log('url', url);
 			if(url) {
 				var	itemUrlPattern = /http:\/\/[^\/]+\.ebay\.[^\/]+\/(soc\/)?itm\//,
 					cgiUrlPattern = /http:\/\/[^\/]+\.ebay\.[^\/]+\/ws\/eBayISAPI.dll\?ViewItem&item=(\d+)/,
@@ -474,8 +486,8 @@
 				itemId = 0,
 				query = '',
 				key;
-
-			itemId = this.extractItemId();
+			// Using config itemId or extract from url
+			itemId = (dataAttributes && dataAttributes.itemId) || this.extractItemId();
 
 			if(this.dataAttributes && this.dataAttributes['params']) {
 				var paramsObj = this.dataAttributes['params'];
@@ -483,11 +495,62 @@
 					params.push(key + '=' + encodeURIComponent(paramsObj[key]));
 				}
 			}
+
+			if (this.dataAttributes && this.dataAttributes['element']) {
+				var element = this.dataAttributes['element'];
+				for(key in element) {
+					var value = this.getElementValue(element[key]);
+					if (value && this.isNumber(value)) {
+						params.push(key + '=' + this.getElementValue(element[key]));
+					}
+				}
+			}
+
+			// maxbid case for url redirect
+			if (this.dataAttributes && this.dataAttributes['maxbid']) {
+				var value = this.dataAttributes['maxbid'];
+				params.push('maxbid' + '=' + value);
+			}
+
 			if(params.length) {
 				query = '?' + params.join('&');
 			}
 
 			return restBase + '/' + cta + '/' + itemId + query;
+		},
+
+		isNumber: function(n) {
+		  return !isNaN(parseFloat(n)) && isFinite(n);
+		},
+
+		getElementValue: function(node){
+			var $element = $(document).find(node);
+			if ($element && $element.length) {
+				return $element.val();
+			}
+		},
+
+		removeURLParameter: function(url, parameter) {
+		    //prefer to use l.search if you have a location/link object
+		    var urlparts= url.split('?');
+		    if (urlparts.length>=2) {
+
+		        var prefix= encodeURIComponent(parameter)+'=';
+		        var pars= urlparts[1].split(/[&;]/g);
+
+		        //reverse iteration as may be destructive
+		        for (var i= pars.length; i-- > 0;) {
+		            //idiom for string.startsWith
+		            if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+		                pars.splice(i, 1);
+		            }
+		        }
+
+		        url= urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : "");
+		        return url;
+		    } else {
+		        return url;
+		    }
 		},
 
 		isAjaxable: function(url) {
@@ -900,9 +963,12 @@
 			if(this.$modal) {
 				this.$modal.modal('hide');
 			}
+			var cta = this.dataAttributes && this.dataAttributes.cta;
 			var url = window.location.href;
-			url = url.replace(/&*boolp=1/,"");
-			url = url.replace(/&*autorefresh=true/,"");
+
+			url = this.removeURLParameter(url, 'cta');
+			url = this.removeURLParameter(url, 'autorefresh');
+			url = this.removeURLParameter(url, 'maxbid');
 			url += (url.indexOf("?")!=-1) ? "&autorefresh=true" : "?autorefresh=true";
 			top.location = url;
 		},
