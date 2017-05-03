@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 
- 	<head>
- 		<link rel="stylesheet" href="../static/stylesheets/style.css">
-  	</head>
-
   	<body>
   		<input id="MaxBidId">
-		<button data-cta="placebid" class="lens-item lens-zoom" data-element='{"maxbid": "#MaxBidId"}'>This is PlaceBid button</button>
+		<button data-cta="placebid" class="lens-item lens-zoom" data-element='{"maxbid": "#MaxBidId"}' data-itemId="">This is PlaceBid button</button>
 		<button data-cta="bestoffer" class="lens-item lens-zoom" data-url="http://www.qa.ebay.com/txn/bo/showBuyerOffer?itemId=160009487197&_=1493356996627" data-fallbackUrl="" >This is BestOffer button</button>
 
  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../static/scripts/vilens.js"></script>
 		<script type="text/javascript">
-		    new Lens({
-		        "sid": "p3907.m570.l1313",
-		        "width": '540px'
-		    });
+			if (window.Lens) {
+			    new Lens({
+			        "sid": "p3907.m570.l1313",
+			        "width": '540px'
+			    });
+			}
 		</script>
   	</body>
 

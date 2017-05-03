@@ -245,9 +245,6 @@
 		},
 
 		triggerAction: function() {
-			// var hash = window.location.hash,
-			// 	actionVerifier = this.options.actionVerifier,
-			// 	action;
 			var params = this.getParamsObj();
 			if (Object.keys(params).length === 0 || !params.cta ) {
 				return;
@@ -664,6 +661,7 @@
 		processResources: function(resp) {
 			var _this = this;
 			if (!_this.isValidValue(resp)) {
+				this.closeModal();
 				return;
 			}
 
@@ -688,10 +686,10 @@
 		},
 
 		isValidValue : function(value) {
-		    if(typeof value !== 'undefined' && !!value) {
-		        return true;
-		    }
-		    return false;
+			if (typeof value === 'undefined' || !value || Object.keys(value).length === 0) {
+				return false;
+			}
+		    return true;
 		},
 
 		checkContainer: function(containerMarkup) {
@@ -863,29 +861,6 @@
 			}
 		},
 
-		processData: function(origData) {
-			var dataMassager = this.options.dataMassager,
-				processedData = origData, // Initially set to origina data
-				itemId;
-			// Massage the data first if dataMassager is provided
-			if(dataMassager) {
-				processedData = dataMassager(origData);
-			}
-
-			// itemId = processedData.itemId;
-			// // Check for item mismatch
-			// if(!itemId || itemId.toString() !== this.currentItemId.toString()) {
-			// 	// Return immediately without further processing
-			// 	return null;
-			// }
-			// // Store original data in cache
-			// if(this.options.cache && !processedData.doNotCache) { // Check first if valid for caching
-			// 	Lens.cache.set(this.getCacheKey(itemId), origData);
-			// }
-
-			return processedData;
-		},
-
 		handleData: function(resp) {
 			// set the data
 			this.data = resp;
@@ -957,6 +932,12 @@
 			});
 			// Set the modal to instance variable
 			return $modal;
+		},
+
+		closeModal: function(){
+			if(this.$modal) {
+				this.$modal.modal('hide');
+			}
 		},
 
 		close: function() {
@@ -1101,23 +1082,14 @@
 		};
 	})();
 
-	/** Static flag to check for tablet **/
-	// Lens.isTablet = (function(){
-	// 	return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|Kindle|Touch/i).test(navigator.userAgent) ||
-	// 		('ontouchstart' in document.documentElement);
-	// })();
-
 	/** Styles needed for the lensing engine **/
 	Lens.style = [
-
+		'<style type="text/css">',
+		'body.prevent-scroll{overflow:hidden;margin-right:15px}.lens-zoom{cursor:-webkit-zoom-in;cursor:-moz-zoom-in;cursor:zoom-in}.lens-modal{-webkit-backface-visibility:hidden;backface-visibility:hidden;box-sizing:border-box;outline:0;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;height:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:auto;max-width:980px;padding:8px;position:relative}.lens-modal-backdrop,.lens-modal-wrapper{box-sizing:border-box;left:0;position:fixed;top:0}.lens-modal-wrapper{display:none;bottom:0;right:0}.lens-modal-backdrop{background-color:#000;height:100%;opacity:.6;overflow:hidden;width:100%}.lens-modal-close{cursor:pointer;background:#fff;border:none;text-align:right;z-index:99;padding:10px 10px 0 0;outline:0}.lens-modal-close::before{font-family:vq-icon-font;content:"\e60a";color:#555;font-size:1rem}.lens-modal-close:focus::before,.lens-modal-close:hover::before{color:rgba(153,153,153,.9)}.lens-modal-close:active::before{color:#333}.lens-modal-close[disabled]:empty{background-color:transparent;cursor:default;opacity:1}.lens-modal-close[disabled]:empty::before,.lens-modal-close[disabled]:empty:focus::before,.lens-modal-close[disabled]:empty:hover::before{color:#ccc}.lens-modal-throbber{background:url(http://p.ebaystatic.com/aw/eBay3.0/lensing/throbber_45px.gif) 50% 50% no-repeat #FFF;min-height:360px}.lens-modal-body{margin-top:-20px}',
+		'</style>'
 	].join('');
 	// Append the styles to the body
 	$('body').append(Lens.style);
-
-	/** Append meta tag if tablet and not present already **/
-	// if(Lens.isTablet && !$('meta[name="viewport"]').length) {
-	// 	$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1"/>');
-	// }
 
 	/** Lens defaults to item layer config **/
 	Lens.defaults = {
@@ -1128,24 +1100,6 @@
 			"prod": "http://www.ebay.com/bfl"
 		},
 		"delegator": null,
-		actionVerifier: function(actionType) { // Function which will be called to verify a lens action type before activating lens
-			var list = ['vi-watch', 'vi-collect', 'vi-default'],
-				i,
-				l = list.length;
-			for(i = 0; i < l; i++) {
-				if(list[i] === actionType) {
-					return true;
-				}
-			}
-			return false;
-		},
-		"dataMassager": function(dataModel) { // Optional function which will be called to massage the dynamic data retrieved from backend service. The data from service will be paassed as parameter. Function should return massaged data
-			var lensModule = window.LensModule;
-			if(lensModule && lensModule.translator && lensModule.translator.item) {
-				return lensModule.translator.item.translate(dataModel);
-			}
-			return dataModel;
-		},
 		"cache": true,
 		"dataHandler": null, // Optional handler to be overriden by application team, if they provide data
 		"resourceData": null, // If resourceData is provided, the JSON call to retrive the resources will not be made.
