@@ -171,11 +171,11 @@
 
 	config = config || {};
 
-	var Lens = function(options) {
+	var NewLens = function(options) {
 		var t = this;
 
 		// Instance variables
-		t.options = $.extend(true, {}, Lens.defaults, config, options);	// Normalize the options first
+		t.options = $.extend(true, {}, NewLens.defaults, config, options);	// Normalize the options first
 		t.restBase = t.options.restBase[t.getEnv(location.hostname)];
 		t.sid = t.options.sid || window.sid; // Getting the sid (Source ID) from options or from global
 		t.$modal = t.createLensElements(); // Create the lens elements for this instance
@@ -191,7 +191,7 @@
 		t.inFlight = null; // Object holds the current inflight requests
 
 		// Update Lens cache settings with provided options
-		Lens.cache.settings(t.options.cache);
+		NewLens.cache.settings(t.options.cache);
 		// Bind the events
 		t.listen();
 
@@ -199,7 +199,7 @@
 		t.triggerAction();
 	};
 
-	Lens.prototype = {
+	NewLens.prototype = {
 
 		listen: function() {
 			var t = this,
@@ -642,7 +642,7 @@
 				t.authRedirect(data.signinURL, data.actionType, data.actionData);
 			});
 			$container.on('lensClearCache', function(evt, data) {
-				Lens.cache.clear(t.getCacheKey(data.id));
+				NewLens.cache.clear(t.getCacheKey(data.id));
 			});
 			$container.on('lensResize', function() {
 				t.resize();
@@ -960,7 +960,7 @@
 	};
 
 	/** Caching utility for lend **/
-	Lens.cache = (function() {
+	NewLens.cache = (function() {
 		var hash = {},
 			count = 0,
 			timer = null,
@@ -1083,16 +1083,16 @@
 	})();
 
 	/** Styles needed for the lensing engine **/
-	Lens.style = [
+	NewLens.style = [
 		'<style type="text/css">',
 		'body.prevent-scroll{overflow:hidden;margin-right:15px}.lens-zoom{cursor:-webkit-zoom-in;cursor:-moz-zoom-in;cursor:zoom-in}.lens-modal{-webkit-backface-visibility:hidden;backface-visibility:hidden;box-sizing:border-box;outline:0;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;height:100%;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:auto;max-width:980px;padding:8px;position:relative}.lens-modal-backdrop,.lens-modal-wrapper{box-sizing:border-box;left:0;position:fixed;top:0}.lens-modal-wrapper{display:none;bottom:0;right:0}.lens-modal-backdrop{background-color:#000;height:100%;opacity:.6;overflow:hidden;width:100%}.lens-modal-close{cursor:pointer;background:#fff;border:none;text-align:right;z-index:99;padding:10px 10px 0 0;outline:0}.lens-modal-close::before{font-family:vq-icon-font;content:"\e60a";color:#555;font-size:1rem}.lens-modal-close:focus::before,.lens-modal-close:hover::before{color:rgba(153,153,153,.9)}.lens-modal-close:active::before{color:#333}.lens-modal-close[disabled]:empty{background-color:transparent;cursor:default;opacity:1}.lens-modal-close[disabled]:empty::before,.lens-modal-close[disabled]:empty:focus::before,.lens-modal-close[disabled]:empty:hover::before{color:#ccc}.lens-modal-throbber{background:url(http://p.ebaystatic.com/aw/eBay3.0/lensing/throbber_45px.gif) 50% 50% no-repeat #FFF;min-height:360px}.lens-modal-body{margin-top:-20px}',
 		'</style>'
 	].join('');
 	// Append the styles to the body
-	$('body').append(Lens.style);
+	$('body').append(NewLens.style);
 
 	/** Lens defaults to item layer config **/
-	Lens.defaults = {
+	NewLens.defaults = {
 		"trigger": ".lens-item", // Selector which triggers the lensing layer
 		"restBase": {
 			"qa": "http://www.qa.ebay.com/bfl",
@@ -1112,6 +1112,6 @@
 	}
 
 	// Assigning Lens to glocal scope
-	window.Lens = Lens;
+	window.NewLens = NewLens;
 
 })(window.jQuery, window.LensConfig);
